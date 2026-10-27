@@ -1,0 +1,70 @@
+{
+  "info": {
+    "name": "E-NAMM Student Management API",
+    "description": "CRUD, search and health-check tests for the E-NAMM student management backend.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" },
+    { "key": "studentId", "value": "REPLACE_WITH_STUDENT_ID" }
+  ],
+  "item": [
+    {
+      "name": "Health check",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/health" }
+    },
+    {
+      "name": "Create student",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Student created (201)', function () { pm.response.to.have.status(201); });",
+              "if (pm.response.code === 201) { pm.collectionVariables.set('studentId', pm.response.json().data._id); }"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\\n  \\"name\\": \\"Rahul Sharma\\",\\n  \\"usn\\": \\"1RV26CS001\\",\\n  \\"email\\": \\"rahul@example.com\\",\\n  \\"department\\": \\"CSE\\",\\n  \\"semester\\": 1,\\n  \\"phone\\": \\"9876543210\\"\\n}"
+        },
+        "url": "{{baseUrl}}/api/students"
+      }
+    },
+    {
+      "name": "Get all students",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/students" }
+    },
+    {
+      "name": "Search students",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/students?search=Rahul" }
+    },
+    {
+      "name": "Filter by department",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/students?department=CSE" }
+    },
+    {
+      "name": "Get student by ID",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/students/{{studentId}}" }
+    },
+    {
+      "name": "Update student",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\\n  \\"semester\\": 2,\\n  \\"phone\\": \\"9999999999\\"\\n}" },
+        "url": "{{baseUrl}}/api/students/{{studentId}}"
+      }
+    },
+    {
+      "name": "Delete student",
+      "request": { "method": "DELETE", "url": "{{baseUrl}}/api/students/{{studentId}}" }
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101827">
+  <title>E-NAMM | Student Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark">E</div>
+    <div>
+      <h1>E-NAMM</h1>
+      <p>Student Management System</p>
+    </div>
+    <span id="apiStatus" class="status-pill">Checking API…</span>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">STUDENT ADMINISTRATION</p>
+        <h2>Manage your students.</h2>
+        <p class="subtitle">Create, search, update and remove student records from one place.</p>
+      </div>
+      <button id="addNewBtn" class="button primary" type="button">＋ Add student</button>
+    </section>
+
+    <section class="stats">
+      <article class="stat-card">
+        <span class="stat-label">Total students</span>
+        <strong id="totalCount">0</strong>
+        <span class="stat-note">Records currently displayed</span>
+      </article>
+      <article class="stat-card">
+        <span class="stat-label">Departments</span>
+        <strong id="departmentCount">0</strong>
+        <span class="stat-note">Unique departments displayed</span>
+      </article>
+      <article class="stat-card">
+        <span class="stat-label">Current semester</span>
+        <strong id="semesterCount">—</strong>
+        <span class="stat-note">Choose a student to view details</span>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="toolbar">
+        <div>
+          <h3>Student directory</h3>
+          <p class="muted">Search by name, USN or email.</p>
+        </div>
+        <div class="filters">
+          <input id="searchInput" type="search" placeholder="Search students…" aria-label="Search students">
+          <select id="departmentFilter" aria-label="Filter by department">
+            <option value="">All departments</option>
+            <option value="CSE">CSE</option>
+            <option value="ISE">ISE</option>
+            <option value="ECE">ECE</option>
+            <option value="EEE">EEE</option>
+            <option value="ME">ME</option>
+            <option value="CIV">CIV</option>
+          </select>
+          <button id="searchBtn" class="button secondary" type="button">Search</button>
+          <button id="clearBtn" class="button ghost" type="button">Clear</button>
+        </div>
+      </div>
+
+      <div id="notice" class="notice hidden" role="status"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>USN</th>
+              <th>Department</th>
+              <th>Semester</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="studentsTable">
+            <tr><td colspan="6" class="empty">Loading students…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-footer"><span id="resultCount">0 records</span><button id="refreshBtn" class="button ghost small" type="button">↻ Refresh</button></div>
+    </section>
+
+    <footer>Built with HTML, CSS, JavaScript, Node.js, Express and MongoDB.</footer>
+  </main>
+
+  <dialog id="studentDialog">
+    <form id="studentForm" class="student-form">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">STUDENT RECORD</p>
+          <h3 id="dialogTitle">Add student</h3>
+        </div>
+        <button id="closeDialogBtn" class="icon-button" type="button" aria-label="Close">✕</button>
+      </div>
+      <input id="studentId" type="hidden">
+      <label for="name">Full name <span>*</span></label>
+      <input id="name" name="name" required minlength="2" maxlength="100" placeholder="e.g. Rahul Sharma">
+      <label for="usn">USN <span>*</span></label>
+      <input id="usn" name="usn" required placeholder="e.g. 1RV26CS001">
+      <label for="email">Email <span>*</span></label>
+      <input id="email" name="email" type="email" required placeholder="student@example.com">
+      <div class="form-grid">
+        <div>
+          <label for="department">Department <span>*</span></label>
+          <select id="department" name="department" required>
+            <option value="">Select department</option>
+            <option value="CSE">CSE</option><option value="ISE">ISE</option>
+            <option value="ECE">ECE</option><option value="EEE">EEE</option>
+            <option value="ME">ME</option><option value="CIV">CIV</option>
+            <option value="AIML">AIML</option><option value="DS">DS</option>
+          </select>
+        </div>
+        <div>
+          <label for="semester">Semester <span>*</span></label>
+          <select id="semester" name="semester" required>
+            <option value="">Select semester</option>
+            <option value="1">1</option><option value="2">2</option>
+            <option value="3">3</option><option value="4">4</option>
+            <option value="5">5</option><option value="6">6</option>
+            <option value="7">7</option><option value="8">8</option>
+          </select>
+        </div>
+      </div>
+      <label for="phone">Phone (optional)</label>
+      <input id="phone" name="phone" type="tel" placeholder="Phone number">
+      <p id="formError" class="form-error hidden"></p>
+      <div class="dialog-actions">
+        <button id="cancelBtn" class="button secondary" type="button">Cancel</button>
+        <button id="saveBtn" class="button primary" type="submit">Save student</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
