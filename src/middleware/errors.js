@@ -1,0 +1,2 @@
+exports.notFound=(req,res)=>res.status(404).json({success:false,message:`Route not found: ${req.method} ${req.originalUrl}`});
+exports.errorHandler=(err,req,res,next)=>{if(res.headersSent)return next(err);console.error(err);res.status(err.status||500).json({success:false,message:err.type==="entity.parse.failed"?"Invalid JSON request body.":(process.env.NODE_ENV==="production"?"Unexpected server error.":err.message||"Server error")});};
