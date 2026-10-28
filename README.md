@@ -22,6 +22,13 @@ A modern, responsive full-stack student management application and academic admi
 
 ## Features
 
+- **Student Academic Hub & Services Portal**:
+  - **Attendance Guardian & 75% Calculator**: Visual gauge tracking attendance against the university 75% threshold, with an interactive calculator determining how many classes can be safely skipped or must be attended.
+  - **Weekly Timetable**: Interactive Monday-to-Friday schedule with periods, locations, and faculty.
+  - **Subject-wise Breakdown**: Course-level attendance tracking with shortage warnings.
+  - **Campus Notice Board**: Priority exam notices, hackathon announcements, and library alerts.
+  - **Academic Downloads**: Instant access to syllabus schemes, academic calendars, and question banks.
+- **Student Profile Dossiers**: One-click modal to inspect any student's full academic file (USN, attendance metrics, CGPA, fee status, enrolled courses, and advisor remarks).
 - **Dark & White (Light) Mode**: Modern theme toggle (☀️ Light / 🌙 Dark) with smooth transitions, persistent user preference in `localStorage`, and automatic system preference detection.
 - **Modern UI & Responsive Design**: Elevated aesthetic with glassmorphism modal dialogs, colorful department pills, live status indicators, pastel avatar gradients, and responsive mobile/desktop layouts.
 - **Authentication & Security**: JWT-based stateless authentication, bcrypt password hashing (cost factor 12), Helmet HTTP security headers, CORS origin filtering, and Express rate limiting.

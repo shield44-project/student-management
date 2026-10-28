@@ -12,9 +12,13 @@ const sampleStudents = [
     email: "aarav.cs21@rvce.edu.in",
     department: "CSE",
     semester: 7,
+    attendance: 94,
+    cgpa: 9.25,
+    feeStatus: "Paid",
     phone: "+91 98765 43210",
     status: "Active",
-    notes: "Core member of Coding Club; working on distributed systems project."
+    courses: ["Distributed Systems", "Cloud Computing", "Deep Learning", "Compiler Design", "Cybersecurity"],
+    notes: "Core member of Coding Club; placed at Google as SWE intern."
   },
   {
     name: "Ananya Iyer",
@@ -22,9 +26,13 @@ const sampleStudents = [
     email: "ananya.cs21@rvce.edu.in",
     department: "CSE",
     semester: 7,
+    attendance: 88,
+    cgpa: 9.10,
+    feeStatus: "Paid",
     phone: "+91 98451 23456",
     status: "Active",
-    notes: "Placed at Google; class representative."
+    courses: ["Distributed Systems", "Cloud Computing", "Deep Learning", "Information Security"],
+    notes: "Class representative; lead organizer for HackRV 2026."
   },
   {
     name: "Rohan Kulkarni",
@@ -32,9 +40,13 @@ const sampleStudents = [
     email: "rohan.ai22@rvce.edu.in",
     department: "AIML",
     semester: 5,
+    attendance: 72,
+    cgpa: 8.45,
+    feeStatus: "Pending",
     phone: "+91 97312 34567",
     status: "Active",
-    notes: "Research paper on computer vision under review."
+    courses: ["Computer Vision", "Natural Language Processing", "Reinforcement Learning", "Neural Networks"],
+    notes: "Attendance shortage alert issued. Research paper in CVPR under review."
   },
   {
     name: "Pooja Hegde",
@@ -42,9 +54,13 @@ const sampleStudents = [
     email: "pooja.ai22@rvce.edu.in",
     department: "AIML",
     semester: 5,
+    attendance: 91,
+    cgpa: 8.95,
+    feeStatus: "Paid",
     phone: "+91 94480 12345",
     status: "Active",
-    notes: "Lead organizer for AI Hackathon 2026."
+    courses: ["Computer Vision", "Natural Language Processing", "Robotics & Kinematics", "Big Data Analytics"],
+    notes: "Top performer in Autonomous Robotics Lab."
   },
   {
     name: "Aditya Verma",
@@ -52,9 +68,13 @@ const sampleStudents = [
     email: "aditya.is22@rvce.edu.in",
     department: "ISE",
     semester: 5,
+    attendance: 85,
+    cgpa: 8.30,
+    feeStatus: "Paid",
     phone: "+91 98860 98765",
     status: "Active",
-    notes: "Full-stack developer intern at fintech startup."
+    courses: ["Software Engineering", "Full Stack Web Dev", "Database Management", "Computer Networks"],
+    notes: "Full-stack developer intern at a Bangalore fintech startup."
   },
   {
     name: "Sneha Patil",
@@ -62,9 +82,13 @@ const sampleStudents = [
     email: "sneha.is22@rvce.edu.in",
     department: "ISE",
     semester: 5,
+    attendance: 64,
+    cgpa: 7.80,
+    feeStatus: "Partial",
     phone: "+91 99001 56789",
     status: "On Leave",
-    notes: "Medical leave approved for autumn semester."
+    courses: ["Software Engineering", "Enterprise Systems", "Database Management"],
+    notes: "Medical leave approved for autumn semester. Attendance exemption filed."
   },
   {
     name: "Vikram Rao",
@@ -72,9 +96,13 @@ const sampleStudents = [
     email: "vikram.ec23@rvce.edu.in",
     department: "ECE",
     semester: 3,
+    attendance: 89,
+    cgpa: 8.75,
+    feeStatus: "Paid",
     phone: "+91 91234 56780",
     status: "Active",
-    notes: "Robotics club sensor team lead."
+    courses: ["Digital Electronics", "Signals & Systems", "Microcontrollers & Embedded C", "Network Analysis"],
+    notes: "Robotics club sensor subsystem lead."
   },
   {
     name: "Diya Nair",
@@ -82,9 +110,13 @@ const sampleStudents = [
     email: "diya.ec23@rvce.edu.in",
     department: "ECE",
     semester: 3,
+    attendance: 96,
+    cgpa: 9.40,
+    feeStatus: "Paid",
     phone: "+91 92345 67891",
     status: "Active",
-    notes: "VLSI design elective topper."
+    courses: ["Digital Electronics", "Signals & Systems", "VLSI Design", "Linear ICs"],
+    notes: "Department rank 1 in 2nd semester examinations."
   },
   {
     name: "Karthik Gowda",
@@ -92,9 +124,13 @@ const sampleStudents = [
     email: "karthik.ee23@rvce.edu.in",
     department: "EEE",
     semester: 3,
+    attendance: 78,
+    cgpa: 7.90,
+    feeStatus: "Pending",
     phone: "+91 93456 78902",
     status: "Active",
-    notes: "Smart grid EV charging project."
+    courses: ["Electric Circuit Theory", "Power Electronics", "Electromagnetic Fields", "Control Systems"],
+    notes: "EV Battery Management System project member."
   },
   {
     name: "Meera Menon",
@@ -102,9 +138,13 @@ const sampleStudents = [
     email: "meera.ee23@rvce.edu.in",
     department: "EEE",
     semester: 3,
+    attendance: 92,
+    cgpa: 8.65,
+    feeStatus: "Paid",
     phone: "+91 94567 89013",
     status: "Active",
-    notes: "Renewable energy lab volunteer."
+    courses: ["Power Electronics", "Renewable Energy Systems", "Control Systems", "Transformers & Induction"],
+    notes: "Solar microgrid lab researcher."
   },
   {
     name: "Rahul Deshmukh",
@@ -112,9 +152,13 @@ const sampleStudents = [
     email: "rahul.me24@rvce.edu.in",
     department: "ME",
     semester: 1,
+    attendance: 87,
+    cgpa: 8.20,
+    feeStatus: "Paid",
     phone: "+91 95678 90124",
     status: "Active",
-    notes: "Formula Student chassis design subgroup."
+    courses: ["Engineering Mechanics", "Thermodynamics", "Materials Science", "CAD & 3D Drafting"],
+    notes: "Formula Student chassis design subgroup recruit."
   },
   {
     name: "Tanvi Joshi",
@@ -122,9 +166,13 @@ const sampleStudents = [
     email: "tanvi.me24@rvce.edu.in",
     department: "ME",
     semester: 1,
+    attendance: 90,
+    cgpa: 8.50,
+    feeStatus: "Paid",
     phone: "+91 96789 01235",
     status: "Active",
-    notes: "3D CAD modeling workshop completed."
+    courses: ["Engineering Mechanics", "Thermodynamics", "Workshop Practice", "Engineering Math I"],
+    notes: "Completed SolidWorks CSWA certification."
   },
   {
     name: "Pranav Bhat",
@@ -132,9 +180,13 @@ const sampleStudents = [
     email: "pranav.cv24@rvce.edu.in",
     department: "CIV",
     semester: 1,
+    attendance: 69,
+    cgpa: 7.45,
+    feeStatus: "Partial",
     phone: "+91 97890 12346",
     status: "Active",
-    notes: "Surveying and GIS certification."
+    courses: ["Surveying & Geomatics", "Structural Mechanics", "Building Materials", "Engineering Geology"],
+    notes: "Attendance below 75% requirement. Parent-teacher meeting scheduled."
   },
   {
     name: "Isha Sundaram",
@@ -142,9 +194,13 @@ const sampleStudents = [
     email: "isha.ds22@rvce.edu.in",
     department: "DS",
     semester: 5,
+    attendance: 95,
+    cgpa: 9.35,
+    feeStatus: "Paid",
     phone: "+91 98901 23457",
     status: "Active",
-    notes: "Data science Kaggle Master; statistical modeling."
+    courses: ["Applied Statistics", "Machine Learning Systems", "Data Warehousing & Mining", "Data Visualization"],
+    notes: "Kaggle Master; author of open-source data analytics library."
   },
   {
     name: "Varun Reddy",
@@ -152,9 +208,13 @@ const sampleStudents = [
     email: "varun.cs20@rvce.edu.in",
     department: "CSE",
     semester: 8,
+    attendance: 93,
+    cgpa: 9.42,
+    feeStatus: "Paid",
     phone: "+91 99012 34568",
     status: "Graduated",
-    notes: "Alumni mentor; graduated with 9.4 CGPA."
+    courses: ["Advanced Algorithms", "Distributed Ledgers", "Capstone Thesis"],
+    notes: "Alumni mentor; graduated with Distinction. Employed at Microsoft."
   },
   {
     name: "Priyanka Shenoy",
@@ -162,9 +222,13 @@ const sampleStudents = [
     email: "priyanka.is20@rvce.edu.in",
     department: "ISE",
     semester: 8,
+    attendance: 97,
+    cgpa: 9.58,
+    feeStatus: "Paid",
     phone: "+91 90123 45679",
     status: "Graduated",
-    notes: "Pursuing MS in Computer Science at CMU."
+    courses: ["Distributed Computing", "Information Retrieval", "Capstone Project"],
+    notes: "Pursuing MS in Computer Science at Carnegie Mellon University."
   },
   {
     name: "Abhishek Pandey",
@@ -172,9 +236,13 @@ const sampleStudents = [
     email: "abhishek.ai23@rvce.edu.in",
     department: "AIML",
     semester: 3,
+    attendance: 83,
+    cgpa: 8.10,
+    feeStatus: "Paid",
     phone: "+91 91230 45678",
     status: "Active",
-    notes: "NLP and LLM fine-tuning team."
+    courses: ["Data Structures & Algorithms", "Mathematics for Machine Learning", "Python for AI", "Digital Logic"],
+    notes: "Working on generative AI conversational agents."
   },
   {
     name: "Kavya Murthy",
@@ -182,9 +250,13 @@ const sampleStudents = [
     email: "kavya.ot24@rvce.edu.in",
     department: "OTHER",
     semester: 1,
+    attendance: 88,
+    cgpa: 8.60,
+    feeStatus: "Paid",
     phone: "+91 92341 56789",
     status: "Active",
-    notes: "Interdisciplinary Biotechnology program."
+    courses: ["Biochemistry", "Molecular Biology", "Bioprocess Engineering", "Applied Biostatistics"],
+    notes: "Interdisciplinary Biotechnology program scholarship recipient."
   }
 ];
 
@@ -193,7 +265,6 @@ const sampleStudents = [
     await connectDB();
     console.log("Connected to MongoDB for student seeding...");
 
-    // Find or create admin user to associate with createdBy
     const adminEmail = String(process.env.ADMIN_EMAIL || "admin@example.com").trim().toLowerCase();
     let admin = await User.findOne({ email: adminEmail });
 
@@ -221,7 +292,7 @@ const sampleStudents = [
     }
 
     const totalStudents = await Student.countDocuments();
-    console.log(`Successfully seeded ${seededCount} sample students! Total students in database: ${totalStudents}`);
+    console.log(`Successfully updated/seeded ${seededCount} students with Attendance, CGPA, Fees, and Courses! Total: ${totalStudents}`);
 
     await mongoose.disconnect();
     process.exit(0);
@@ -230,4 +301,3 @@ const sampleStudents = [
     process.exit(1);
   }
 })();
-

@@ -9,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
   <script>
-    // Immediate theme initialization to prevent flash of wrong theme
     (function() {
       const saved = localStorage.getItem("theme");
       const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -20,10 +19,12 @@
 </head>
 <body>
 
-  <!-- Floating Toast Notifications -->
+  <!-- Floating Toast Notification -->
   <div id="toast" class="toast hidden" role="alert" aria-live="polite"></div>
 
-  <!-- AUTHENTICATION VIEW -->
+  <!-- ======================================================================
+       AUTHENTICATION VIEW
+       ====================================================================== -->
   <section id="authView" class="auth">
     <aside class="hero">
       <div class="hero-top">
@@ -36,34 +37,34 @@
           </div>
           <span class="brand-text">Student Management</span>
         </div>
-        <div class="hero-badge">ACADEMIC PLATFORM 2.0</div>
+        <div class="hero-badge">CAMPUS OS 2.0</div>
       </div>
 
       <div class="hero-copy">
         <span class="eyebrow">CAMPUS OPERATIONS · SIMPLIFIED</span>
         <h1>Every student.<br><span class="gradient-text">One clear view.</span></h1>
-        <p>A modern student directory and academic administration workspace built for clarity, speed, and effortless management.</p>
+        <p>A modern student directory and academic administration workspace built for clarity, speed, attendance management, and student success.</p>
         
         <div class="hero-features">
           <div class="hero-feature">
             <span class="feat-icon">✓</span>
             <div>
-              <strong>Secure Role-Based Access</strong>
-              <span>Protected JWT sessions & role segregation</span>
+              <strong>Student Academic Hub & Portal</strong>
+              <span>Attendance 75% calculator, timetables & notices</span>
             </div>
           </div>
           <div class="hero-feature">
             <span class="feat-icon">✓</span>
             <div>
-              <strong>Instant Analytics & Insights</strong>
-              <span>Live metrics across branches and semesters</span>
+              <strong>Real-Time Directory & Metrics</strong>
+              <span>Attendance status, CGPA breakdown & fee tracking</span>
             </div>
           </div>
           <div class="hero-feature">
             <span class="feat-icon">✓</span>
             <div>
-              <strong>Search, Filter & One-Click CSV</strong>
-              <span>Fast multi-criteria query and roster exports</span>
+              <strong>Role-Based Access Control</strong>
+              <span>Administrator CRUD operations and Student views</span>
             </div>
           </div>
         </div>
@@ -143,7 +144,9 @@
     </main>
   </section>
 
-  <!-- APPLICATION WORKSPACE SHELL -->
+  <!-- ======================================================================
+       APPLICATION WORKSPACE SHELL
+       ====================================================================== -->
   <section id="appView" class="shell hidden">
     <!-- Left Navigation Sidebar -->
     <aside class="sidebar">
@@ -159,24 +162,25 @@
         </div>
 
         <div class="nav-section">
-          <small class="nav-label">WORKSPACE</small>
-          <button class="nav active" type="button">
+          <small class="nav-label">MAIN NAVIGATION</small>
+          
+          <button id="overviewNav" class="nav active" type="button">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="3" width="7" height="7"></rect>
               <rect x="14" y="3" width="7" height="7"></rect>
               <rect x="14" y="14" width="7" height="7"></rect>
               <rect x="3" y="14" width="7" height="7"></rect>
             </svg>
-            <span>Overview</span>
+            <span>Overview & Directory</span>
           </button>
-          <button id="directoryNav" class="nav" type="button">
+
+          <button id="studentHubNav" class="nav" type="button">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-              <circle cx="9" cy="7" r="4"></circle>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
             </svg>
-            <span>Student Directory</span>
+            <span>Student Academic Hub</span>
+            <span class="nav-pill">New</span>
           </button>
         </div>
       </div>
@@ -185,13 +189,13 @@
         <div class="system-status">
           <span class="status-indicator live"></span>
           <div class="status-details">
-            <strong>System Operational</strong>
-            <small>API & MongoDB Active</small>
+            <strong>Campus OS Operational</strong>
+            <small>MongoDB & API Synchronized</small>
           </div>
         </div>
         <div class="platform-version">
           <span>Student Management Workspace</span>
-          <span class="vtag">v2.0.0</span>
+          <span class="vtag">v2.1.0</span>
         </div>
       </div>
     </aside>
@@ -203,11 +207,11 @@
         <div class="crumb">
           <span>Workspace</span>
           <span class="crumb-sep">/</span>
-          <strong>Overview & Directory</strong>
+          <strong id="activeViewTitle">Overview & Student Directory</strong>
         </div>
 
         <div class="user-actions">
-          <!-- Dark/White Mode Toggle -->
+          <!-- Theme Toggle -->
           <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark and light mode" title="Switch Theme">
             <span class="sun-icon">☀️ Light</span>
             <span class="moon-icon">🌙 Dark</span>
@@ -237,14 +241,14 @@
         </div>
       </header>
 
-      <!-- Dashboard Body Content -->
-      <div class="content">
+      <!-- View 1: DIRECTORY & OVERVIEW -->
+      <div id="directoryView" class="content view-section">
         <!-- Welcome Heading -->
         <div class="heading">
           <div>
             <span class="sub-label">DASHBOARD / OVERVIEW</span>
             <h1>Good to see you, <span class="highlight" id="greetingName">there</span>.</h1>
-            <p class="muted">Live overview and management across academic records and student profiles.</p>
+            <p class="muted">Live overview of student records, attendance metrics, and academic departments.</p>
           </div>
           <div class="heading-aside">
             <span id="todayLabel" class="date-badge"></span>
@@ -259,44 +263,44 @@
               <div class="metric-icon total">👥</div>
             </div>
             <strong id="metricTotal" class="metric-value">—</strong>
-            <p class="metric-sub">Registered students</p>
+            <p class="metric-sub">Enrolled students</p>
           </article>
 
           <article class="metric-card">
             <div class="metric-header">
-              <span class="metric-label">ACTIVE STUDENTS</span>
-              <div class="metric-icon active">🟢</div>
+              <span class="metric-label">AVG ATTENDANCE</span>
+              <div class="metric-icon active">📊</div>
             </div>
-            <strong id="metricActive" class="metric-value">—</strong>
-            <p class="metric-sub">Currently enrolled</p>
+            <strong id="metricAvgAttendance" class="metric-value">88%</strong>
+            <p class="metric-sub">Campus average attendance</p>
           </article>
 
           <article class="metric-card">
             <div class="metric-header">
-              <span class="metric-label">DEPARTMENTS</span>
-              <div class="metric-icon dept">🏛️</div>
+              <span class="metric-label">ATTENDANCE SHORTAGE</span>
+              <div class="metric-icon warning">⚠️</div>
             </div>
-            <strong id="metricDepartments" class="metric-value">—</strong>
-            <p class="metric-sub">Academic branches</p>
+            <strong id="metricShortage" class="metric-value warning-text">—</strong>
+            <p class="metric-sub">Students below 75% threshold</p>
           </article>
 
           <article class="metric-card">
             <div class="metric-header">
-              <span class="metric-label">CURRICULUM</span>
-              <div class="metric-icon sem">🎓</div>
+              <span class="metric-label">CAMPUS CGPA</span>
+              <div class="metric-icon sem">⭐</div>
             </div>
-            <strong class="metric-value">8</strong>
-            <p class="metric-sub">Semesters supported</p>
+            <strong id="metricAvgCgpa" class="metric-value">8.6</strong>
+            <p class="metric-sub">Average academic score</p>
           </article>
         </div>
 
-        <!-- Main Directory Section -->
+        <!-- Student Directory Section -->
         <section class="card directory-card">
           <div class="card-head">
             <div>
-              <span class="sub-label">STUDENT RECORDS</span>
+              <span class="sub-label">ACADEMIC RECORDS</span>
               <h2>Student Directory</h2>
-              <p class="muted">Search, filter, edit, and organize enrolled student details.</p>
+              <p class="muted">Search, filter, view attendance, inspect profiles, and export records.</p>
             </div>
             <div class="actions">
               <button id="exportBtn" class="btn light admin-only" type="button">
@@ -357,12 +361,33 @@
                 </select>
               </div>
 
+              <!-- Attendance Tier Filter -->
+              <div class="select-wrap">
+                <select id="attendanceFilter">
+                  <option value="">All Attendance</option>
+                  <option value="good">🟢 Good (≥85%)</option>
+                  <option value="average">🟡 Average (75%–84%)</option>
+                  <option value="shortage">🔴 Shortage (&lt;75%)</option>
+                </select>
+              </div>
+
+              <!-- Status Filter -->
               <div class="select-wrap">
                 <select id="statusFilter">
                   <option value="">All Statuses</option>
                   <option>Active</option>
                   <option>On Leave</option>
                   <option>Graduated</option>
+                </select>
+              </div>
+
+              <!-- Fee Status Filter -->
+              <div class="select-wrap">
+                <select id="feeFilter">
+                  <option value="">All Fees</option>
+                  <option value="Paid">Fee: Paid</option>
+                  <option value="Pending">Fee: Pending</option>
+                  <option value="Partial">Fee: Partial</option>
                 </select>
               </div>
 
@@ -384,15 +409,17 @@
                   <th>STUDENT</th>
                   <th>USN</th>
                   <th>DEPARTMENT</th>
-                  <th>SEMESTER</th>
+                  <th>SEM</th>
+                  <th>ATTENDANCE</th>
+                  <th>CGPA</th>
+                  <th>FEES</th>
                   <th>STATUS</th>
-                  <th>EMAIL</th>
-                  <th class="admin-only">ACTIONS</th>
+                  <th>ACTIONS</th>
                 </tr>
               </thead>
               <tbody id="studentsBody">
                 <tr>
-                  <td colspan="7" class="empty">Loading records…</td>
+                  <td colspan="9" class="empty">Loading records…</td>
                 </tr>
               </tbody>
             </table>
@@ -412,16 +439,434 @@
             </div>
           </div>
         </section>
-
-        <!-- Footer -->
-        <footer class="app-footer">
-          <p>© <span id="year">2026</span> Student Management Workspace · Designed for academic administration with Node.js & MongoDB.</p>
-        </footer>
       </div>
+
+      <!-- ==================================================================
+           View 2: STUDENT ACADEMIC HUB & PERSONAL PORTAL
+           ================================================================== -->
+      <div id="studentHubView" class="content view-section hidden">
+        <!-- Header Banner -->
+        <div class="heading">
+          <div>
+            <span class="sub-label">STUDENT DASHBOARD</span>
+            <h1>Academic Hub & Student Services</h1>
+            <p class="muted">Check your personal attendance eligibility, 75% rule calculator, weekly timetable, and campus notices.</p>
+          </div>
+          <div class="hub-selector-wrap">
+            <label for="hubStudentSelector" class="small-label">Viewing Profile for:</label>
+            <select id="hubStudentSelector" class="hub-select">
+              <option value="">Loading students…</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Student Quick Profile Banner -->
+        <div class="student-banner">
+          <div class="banner-avatar-wrap">
+            <span id="hubAvatar" class="banner-avatar avatar-0">S</span>
+          </div>
+          <div class="banner-info">
+            <div class="banner-title-row">
+              <h2 id="hubName">Aarav Sharma</h2>
+              <span id="hubUsn" class="usn-text usn-pill">1RV21CS001</span>
+              <span id="hubDeptBadge" class="dept-badge dept-CSE">CSE</span>
+              <span id="hubStatusBadge" class="status-badge status-Active"><span class="status-dot"></span> Active</span>
+            </div>
+            <div class="banner-meta-row">
+              <span>📚 <strong id="hubSemester">Semester 7</strong></span>
+              <span>📧 <span id="hubEmail">aarav.cs21@rvce.edu.in</span></span>
+              <span>📞 <span id="hubPhone">+91 98765 43210</span></span>
+              <span>💳 Fees: <strong id="hubFeeStatus" class="fee-badge fee-Paid">Paid</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Student Hub Grid -->
+        <div class="hub-grid">
+          <!-- Card 1: Attendance Guardian & 75% Calculator -->
+          <article class="card hub-card attendance-card">
+            <div class="hub-card-header">
+              <div>
+                <span class="sub-label">ATTENDANCE COMPLIANCE</span>
+                <h3>Attendance & 75% Rule Guardian</h3>
+              </div>
+              <span id="attendanceStatusTag" class="tag-safe">✓ Exam Eligible</span>
+            </div>
+
+            <div class="attendance-visual">
+              <div class="attendance-metric-big">
+                <span id="hubAttendanceValue" class="big-percent">94%</span>
+                <small>Overall Attendance</small>
+              </div>
+              <div class="attendance-gauge-wrap">
+                <div class="gauge-bar">
+                  <div id="hubAttendanceBar" class="gauge-fill" style="width: 94%;"></div>
+                  <div class="gauge-target-line" title="75% Minimum University Threshold" style="left: 75%;"></div>
+                </div>
+                <div class="gauge-labels">
+                  <span>0%</span>
+                  <span class="threshold-label">75% Min. Required</span>
+                  <span>100%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interactive Bunk / Attendance Calculator -->
+            <div class="bunk-calculator">
+              <div class="calc-header">
+                <strong>🧮 Attendance Target Calculator</strong>
+                <small class="muted">Check how many classes you can skip or must attend</small>
+              </div>
+
+              <div class="calc-inputs">
+                <div class="calc-field">
+                  <label>Classes Attended</label>
+                  <input id="calcAttended" type="number" min="0" value="47">
+                </div>
+                <div class="calc-field">
+                  <label>Total Classes Held</label>
+                  <input id="calcTotal" type="number" min="1" value="50">
+                </div>
+                <div class="calc-field">
+                  <label>Target (%)</label>
+                  <input id="calcTarget" type="number" min="50" max="100" value="75">
+                </div>
+              </div>
+
+              <div id="calcResultBox" class="calc-result safe">
+                <span class="calc-icon">🎉</span>
+                <p id="calcResultMessage">You can safely miss <strong>12 more classes</strong> and still maintain 75% attendance!</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: Academic Standing & CGPA -->
+          <article class="card hub-card cgpa-card">
+            <div class="hub-card-header">
+              <div>
+                <span class="sub-label">ACADEMIC STANDING</span>
+                <h3>CGPA & Performance</h3>
+              </div>
+              <span class="cgpa-star">⭐</span>
+            </div>
+
+            <div class="cgpa-body">
+              <div class="cgpa-stat">
+                <strong id="hubCgpaValue" class="cgpa-number">9.25</strong>
+                <span>Cumulative GPA (out of 10.0)</span>
+              </div>
+              <div class="cgpa-badge-wrap">
+                <span id="hubCgpaBadge" class="standing-pill">First Class with Distinction</span>
+                <small class="muted">Eligible for Campus Placements & Honors Program</small>
+              </div>
+            </div>
+
+            <div class="quick-stats-row">
+              <div class="qstat">
+                <small>CREDITS EARNED</small>
+                <strong>142 / 160</strong>
+              </div>
+              <div class="qstat">
+                <small>SEMESTER RANK</small>
+                <strong>#03 in CSE</strong>
+              </div>
+              <div class="qstat">
+                <small>BACKLOGS</small>
+                <strong class="text-safe">0 Active</strong>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3: Subject-wise Attendance Breakdown -->
+          <article class="card hub-card full-width">
+            <div class="hub-card-header">
+              <div>
+                <span class="sub-label">SUBJECT-WISE ATTENDANCE</span>
+                <h3>Current Semester Course Attendance</h3>
+              </div>
+              <small class="muted">Updated weekly by course instructors</small>
+            </div>
+
+            <div class="subjects-list" id="hubSubjectsList">
+              <!-- Dynamically populated or rendered subjects -->
+              <div class="subject-row">
+                <div class="sub-info">
+                  <strong>Distributed Systems (CS701)</strong>
+                  <small>Prof. K. N. Sridhar · 4 Credits</small>
+                </div>
+                <div class="sub-bar-wrap">
+                  <div class="progress-bar"><div class="progress-fill fill-good" style="width: 94%;"></div></div>
+                  <span class="sub-count">47/50 classes (94%)</span>
+                </div>
+                <span class="sub-tag tag-good">Good</span>
+              </div>
+
+              <div class="subject-row">
+                <div class="sub-info">
+                  <strong>Cloud Computing & DevOps (CS702)</strong>
+                  <small>Dr. Meenakshi Sundaram · 4 Credits</small>
+                </div>
+                <div class="sub-bar-wrap">
+                  <div class="progress-bar"><div class="progress-fill fill-good" style="width: 88%;"></div></div>
+                  <span class="sub-count">44/50 classes (88%)</span>
+                </div>
+                <span class="sub-tag tag-good">Good</span>
+              </div>
+
+              <div class="subject-row">
+                <div class="sub-info">
+                  <strong>Deep Learning & Neural Nets (CS703)</strong>
+                  <small>Prof. Anirudh Sen · 3 Credits</small>
+                </div>
+                <div class="sub-bar-wrap">
+                  <div class="progress-bar"><div class="progress-fill fill-shortage" style="width: 72%;"></div></div>
+                  <span class="sub-count">36/50 classes (72%)</span>
+                </div>
+                <span class="sub-tag tag-shortage">⚠️ Shortage</span>
+              </div>
+
+              <div class="subject-row">
+                <div class="sub-info">
+                  <strong>Cybersecurity & Ethical Hacking (CS704)</strong>
+                  <small>Prof. Vandana Rao · 3 Credits</small>
+                </div>
+                <div class="sub-bar-wrap">
+                  <div class="progress-bar"><div class="progress-fill fill-good" style="width: 96%;"></div></div>
+                  <span class="sub-count">48/50 classes (96%)</span>
+                </div>
+                <span class="sub-tag tag-good">Good</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4: Weekly Class Timetable -->
+          <article class="card hub-card">
+            <div class="hub-card-header">
+              <div>
+                <span class="sub-label">CLASS SCHEDULE</span>
+                <h3>Weekly Timetable</h3>
+              </div>
+              <div class="day-switcher" id="timetableDays">
+                <button class="day-btn active" data-day="Mon">Mon</button>
+                <button class="day-btn" data-day="Tue">Tue</button>
+                <button class="day-btn" data-day="Wed">Wed</button>
+                <button class="day-btn" data-day="Thu">Thu</button>
+                <button class="day-btn" data-day="Fri">Fri</button>
+              </div>
+            </div>
+
+            <div class="timetable-list" id="timetableList">
+              <div class="time-item">
+                <span class="time-pill">09:00 - 10:00</span>
+                <div class="time-details">
+                  <strong>Distributed Systems</strong>
+                  <small>Room: CS-LH302 · Prof. K. N. Sridhar</small>
+                </div>
+              </div>
+              <div class="time-item">
+                <span class="time-pill">10:00 - 11:00</span>
+                <div class="time-details">
+                  <strong>Cloud Computing & DevOps</strong>
+                  <small>Room: CS-LH302 · Dr. Meenakshi</small>
+                </div>
+              </div>
+              <div class="time-item break">
+                <span class="time-pill">11:00 - 11:15</span>
+                <span>☕ Morning Tea Break</span>
+              </div>
+              <div class="time-item">
+                <span class="time-pill">11:15 - 12:15</span>
+                <div class="time-details">
+                  <strong>Deep Learning Architecture</strong>
+                  <small>Room: AI-Lab 2 · Prof. Anirudh</small>
+                </div>
+              </div>
+              <div class="time-item lab">
+                <span class="time-pill">13:30 - 16:30</span>
+                <div class="time-details">
+                  <strong>Network Security & Pentest Lab</strong>
+                  <small>Systems Lab 4 · Practical Assessment</small>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 5: Campus Notice Board & Academic Announcements -->
+          <article class="card hub-card">
+            <div class="hub-card-header">
+              <div>
+                <span class="sub-label">ANNOUNCEMENTS</span>
+                <h3>Campus Notice Board</h3>
+              </div>
+              <span class="badge live-badge">Live Feed</span>
+            </div>
+
+            <div class="notice-list">
+              <div class="notice-item priority">
+                <span class="notice-tag tag-urgent">Exams</span>
+                <div class="notice-content">
+                  <strong>Mid-Term Schedule Released</strong>
+                  <p>Mid-semester examinations commence from 15th November. Admit cards will be available on the portal.</p>
+                  <small>Published: 2 days ago · Academic Dean Office</small>
+                </div>
+              </div>
+
+              <div class="notice-item">
+                <span class="notice-tag tag-event">Hackathon</span>
+                <div class="notice-content">
+                  <strong>Annual RV Hackathon 2026</strong>
+                  <p>Registrations open for 36-hour National Hackathon. Cash pool ₹2,50,000 for top AI innovations.</p>
+                  <small>Published: Yesterday · Dept of Computer Science</small>
+                </div>
+              </div>
+
+              <div class="notice-item">
+                <span class="notice-tag tag-info">Library</span>
+                <div class="notice-content">
+                  <strong>24x7 Digital Library Access</strong>
+                  <p>Central library reading halls and IEEE Xplore access now operational round-the-clock.</p>
+                  <small>Published: 3 days ago · Chief Librarian</small>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 6: Quick Academic Downloads & Services -->
+          <article class="card hub-card full-width">
+            <div class="hub-card-header">
+              <div>
+                <span class="sub-label">ACADEMIC RESOURCES</span>
+                <h3>Quick Downloads & Academic Links</h3>
+              </div>
+            </div>
+
+            <div class="resources-grid">
+              <a href="#" class="resource-card" onclick="alert('Downloading 2026 Curriculum Scheme & Syllabus PDF...'); return false;">
+                <span class="res-icon">📄</span>
+                <div>
+                  <strong>Syllabus & Scheme (PDF)</strong>
+                  <small>Autonomous 2026 Curriculum</small>
+                </div>
+                <span class="res-arrow">↓</span>
+              </a>
+
+              <a href="#" class="resource-card" onclick="alert('Opening Academic Calendar 2026...'); return false;">
+                <span class="res-icon">📅</span>
+                <div>
+                  <strong>Academic Calendar</strong>
+                  <small>Holidays, exam dates, working days</small>
+                </div>
+                <span class="res-arrow">↗</span>
+              </a>
+
+              <a href="#" class="resource-card" onclick="alert('Accessing Previous Year Question Paper Repository...'); return false;">
+                <span class="res-icon">📚</span>
+                <div>
+                  <strong>Question Paper Bank (PYQ)</strong>
+                  <small>Past 5 years solved papers</small>
+                </div>
+                <span class="res-arrow">↗</span>
+              </a>
+
+              <a href="#" class="resource-card" onclick="alert('Opening University Fee Clearance Portal...'); return false;">
+                <span class="res-icon">💳</span>
+                <div>
+                  <strong>Fee Receipts & Dues</strong>
+                  <small>Online payment receipts & NOC</small>
+                </div>
+                <span class="res-arrow">↗</span>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <p>© <span id="year">2026</span> Student Management Workspace · Designed for academic administration with Node.js & MongoDB.</p>
+      </footer>
     </main>
   </section>
 
-  <!-- ADD / EDIT STUDENT MODAL DIALOG -->
+  <!-- ======================================================================
+       STUDENT PROFILE DOSSIER MODAL (VIEW PROFILE FOR ANY STUDENT)
+       ====================================================================== -->
+  <dialog id="profileDialog">
+    <div class="modal-form profile-modal-form">
+      <div class="modal-head">
+        <div>
+          <span class="sub-label">STUDENT DOSSIER</span>
+          <h2 id="dossierName">Student Profile</h2>
+        </div>
+        <button id="closeProfileModal" type="button" class="close-btn" aria-label="Close dialog">×</button>
+      </div>
+
+      <div class="dossier-body">
+        <div class="dossier-header-card">
+          <div id="dossierAvatar" class="dossier-avatar avatar-1">A</div>
+          <div class="dossier-meta">
+            <h3 id="dossierFullName">Student Name</h3>
+            <div class="dossier-pills">
+              <span id="dossierUsn" class="usn-text usn-pill">1RV21CS001</span>
+              <span id="dossierDept" class="dept-badge dept-CSE">CSE</span>
+              <span id="dossierSem" class="sem-pill">Semester 5</span>
+              <span id="dossierStatus" class="status-badge status-Active"><span class="status-dot"></span> Active</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dossier-stats-grid">
+          <div class="dstat-box">
+            <small>ATTENDANCE</small>
+            <strong id="dossierAttendance">92%</strong>
+            <span id="dossierAttendanceTag" class="mini-tag tag-good">Good</span>
+          </div>
+
+          <div class="dstat-box">
+            <small>CGPA</small>
+            <strong id="dossierCgpa">9.15</strong>
+            <span class="mini-tag tag-good">Distinction</span>
+          </div>
+
+          <div class="dstat-box">
+            <small>FEE STATUS</small>
+            <strong id="dossierFees">Paid</strong>
+            <span id="dossierFeeTag" class="mini-tag tag-good">Clear</span>
+          </div>
+        </div>
+
+        <div class="dossier-details-table">
+          <div class="drow">
+            <span>Email Address:</span>
+            <strong id="dossierEmail">student@rvce.edu.in</strong>
+          </div>
+          <div class="drow">
+            <span>Phone Number:</span>
+            <strong id="dossierPhone">+91 98765 43210</strong>
+          </div>
+          <div class="drow">
+            <span>Enrolled Courses:</span>
+            <div id="dossierCourses" class="courses-tags">
+              <span class="course-tag">Operating Systems</span>
+              <span class="course-tag">Algorithms</span>
+            </div>
+          </div>
+          <div class="drow">
+            <span>Faculty Remarks / Notes:</span>
+            <p id="dossierNotes" class="dossier-notes-text">No notes provided.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button id="closeProfileModalBtn" class="btn primary" type="button">Done</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ======================================================================
+       ADD / EDIT STUDENT MODAL (ADMIN ONLY)
+       ====================================================================== -->
   <dialog id="studentDialog">
     <form id="studentForm" class="modal-form" method="dialog">
       <div class="modal-head">
@@ -440,14 +885,16 @@
           <input id="studentName" required minlength="2" maxlength="100" placeholder="e.g. Ananya Iyer">
         </div>
 
-        <div class="field">
-          <label for="studentUsn">University Seat Number (USN) <span class="req">*</span></label>
-          <input id="studentUsn" required placeholder="e.g. 1RV22CS015">
-        </div>
+        <div class="two">
+          <div class="field">
+            <label for="studentUsn">University Seat Number (USN) <span class="req">*</span></label>
+            <input id="studentUsn" required placeholder="e.g. 1RV22CS015">
+          </div>
 
-        <div class="field">
-          <label for="studentEmail">Email Address <span class="req">*</span></label>
-          <input id="studentEmail" type="email" required placeholder="e.g. ananya.cs22@rvce.edu.in">
+          <div class="field">
+            <label for="studentEmail">Email Address <span class="req">*</span></label>
+            <input id="studentEmail" type="email" required placeholder="e.g. ananya.cs22@rvce.edu.in">
+          </div>
         </div>
 
         <div class="two">
@@ -483,6 +930,28 @@
           </div>
         </div>
 
+        <!-- Attendance, CGPA and Fees (New additions!) -->
+        <div class="three">
+          <div class="field">
+            <label for="studentAttendance">Attendance (%)</label>
+            <input id="studentAttendance" type="number" min="0" max="100" placeholder="85">
+          </div>
+
+          <div class="field">
+            <label for="studentCgpa">CGPA (0 - 10)</label>
+            <input id="studentCgpa" type="number" step="0.01" min="0" max="10" placeholder="8.50">
+          </div>
+
+          <div class="field">
+            <label for="studentFeeStatus">Fee Status</label>
+            <select id="studentFeeStatus">
+              <option value="Paid">Paid</option>
+              <option value="Pending">Pending</option>
+              <option value="Partial">Partial</option>
+            </select>
+          </div>
+        </div>
+
         <div class="two">
           <div class="field">
             <label for="studentStatus">Enrollment Status</label>
@@ -500,8 +969,13 @@
         </div>
 
         <div class="field">
+          <label for="studentCourses">Enrolled Courses (comma-separated)</label>
+          <input id="studentCourses" placeholder="e.g. Distributed Systems, Cloud Computing, Neural Networks">
+        </div>
+
+        <div class="field">
           <label for="studentNotes">Academic & Extracurricular Notes</label>
-          <textarea id="studentNotes" maxlength="500" rows="3" placeholder="Projects, achievements, club affiliations, or advisor remarks…"></textarea>
+          <textarea id="studentNotes" maxlength="500" rows="2" placeholder="Projects, achievements, club affiliations, or advisor remarks…"></textarea>
         </div>
 
         <p id="formError" class="error hidden" role="alert"></p>
@@ -517,7 +991,7 @@
     </form>
   </dialog>
 
-  <!-- Client JavaScript Application -->
+  <!-- Client Application Script -->
   <script src="/app.js"></script>
 </body>
 </html>
