@@ -1,69 +1,52 @@
-# E-NAMM Student Management System
+# Student Management System (Full Stack)
 
-A full-stack academic mini-project demonstrating HTML, CSS, JavaScript, Node.js, Express, MongoDB/Mongoose, REST APIs and Postman.
+Responsive full-stack mini-project: HTML/CSS/JavaScript frontend, Node.js + Express REST API, MongoDB/Mongoose, JWT authentication, bcrypt password hashing, role-based authorization, search/filter/pagination, dashboard stats, CSV export and Postman collection.
 
-## Features
-- Create, list, search, filter, update and delete student records
-- REST endpoints for GET, POST, PUT and DELETE
-- Student validation and duplicate USN/email handling
-- Responsive browser UI
-- Health-check endpoint
-- Importable Postman collection
+## Run locally
+Requirements: Node.js 20+ and MongoDB local or Atlas.
 
-## Requirements
-- Node.js 18 or newer
-- MongoDB running locally, or a MongoDB Atlas connection string
-- Postman (for API testing)
-
-## 1. Configure backend
 ```bash
-cd backend
 npm install
 cp .env.example .env
 ```
-Edit `backend/.env` if your MongoDB URI differs. The default URI is:
-`mongodb://127.0.0.1:27017/enamm_students`
+Edit `.env`; set a random `JWT_SECRET` of 32+ characters and `MONGODB_URI`. Then create the admin account and start the server:
 
-## 2. Start backend
 ```bash
+npm run seed:admin
 npm run dev
 ```
-The API should be available at `http://localhost:5000`.
+Open `http://localhost:5000`. Admin credentials come from `.env`. Public sign-up always creates a student account. Students can view the directory; only admins can create/update/delete records or export CSV.
 
-Useful endpoints:
-- `GET http://localhost:5000/`
-- `GET http://localhost:5000/api/health`
-- `GET http://localhost:5000/api/students`
-- `POST http://localhost:5000/api/students`
-- `GET http://localhost:5000/api/students/:id`
-- `PUT http://localhost:5000/api/students/:id`
-- `DELETE http://localhost:5000/api/students/:id`
-- `GET http://localhost:5000/api/students?search=Rahul`
-- `GET http://localhost:5000/api/students?department=CSE`
+## REST API
+All `/api/students` endpoints require `Authorization: Bearer <token>`.
 
-## 3. Start the frontend
-Keep the backend running. Open `frontend/index.html` in a browser. If the browser blocks local-file requests, serve the frontend with a small static server instead:
-```bash
-cd frontend
-npx serve .
-```
-Then open the local URL printed by `serve`.
+| Method | Endpoint | Permission | Description |
+|---|---|---|---|
+| GET | `/api/health` | Public | Health check |
+| POST | `/api/auth/register` | Public | Register student account |
+| POST | `/api/auth/login` | Public | Sign in |
+| GET | `/api/auth/me` | Signed in | Current user |
+| GET | `/api/students` | Signed in | List/search/filter/paginate |
+| GET | `/api/students/stats` | Signed in | Dashboard stats |
+| GET | `/api/students/:id` | Signed in | Get one student |
+| POST | `/api/students` | Admin | Create student |
+| PUT | `/api/students/:id` | Admin | Update student |
+| DELETE | `/api/students/:id` | Admin | Delete student |
+| GET | `/api/students/export.csv` | Admin | Download CSV |
 
-The frontend expects the backend at `http://localhost:5000/api`. For a deployed backend, change `API_BASE` in `frontend/script.js`.
+Query examples: `?page=1&limit=8`, `?search=Rahul`, `?department=CSE&semester=1&status=Active`.
 
-## 4. Test with Postman
-Import `postman/E-NAMM-Student-Management.postman_collection.json` into Postman.
-Run **Health check**, then **Create student**. The create request saves the returned ID as the `studentId` collection variable. Then run the GET, search, update and delete requests.
-The sample USN/email must be unique in your database. Change them before repeating the create request.
+## Postman
+Import `postman/Student Management-API.postman_collection.json`. Use your seeded admin credentials in the Login request. It saves the token automatically; run Create student before update/delete. Change sample USN/email before repeating creates because these fields are unique.
 
-## HTTP status codes
-- `200 OK`: successful reads, updates and deletes
-- `201 Created`: student created
-- `400 Bad Request`: invalid ID or invalid input
-- `404 Not Found`: student does not exist
-- `409 Conflict`: duplicate USN or email
-- `500 Internal Server Error`: unexpected server failure
+## Deploy on Vercel with a custom domain
+1. Create a MongoDB Atlas cluster, database user, and database. Configure Atlas Network Access so Vercel can connect; `0.0.0.0/0` is the easy demo setting but less restrictive than ideal.
+2. Push the repository to GitHub. Never commit `.env` or credentials.
+3. Import the repository in Vercel. Keep the project root at the repository root. `vercel.json` routes `/api/*` to `api/index.js` and serves `public/` as static files.
+4. Add Vercel environment variables: `NODE_ENV=production`, `MONGODB_URI=<Atlas URI>`, `JWT_SECRET=<random 32+ char secret>`, `JWT_EXPIRES_IN=1d`, `CLIENT_ORIGIN=https://your-project.vercel.app`, `ADMIN_NAME`, `ADMIN_EMAIL`, and `ADMIN_PASSWORD` (at least 12 characters).
+5. Deploy. Seed the admin once from a trusted local environment configured with the same production Atlas URI and admin variables: `npm run seed:admin`. Do not run seeding on every deployment.
+6. Verify `https://your-project.vercel.app/api/health` and sign in.
+7. For a custom domain: Vercel project → Settings → Domains → add domain. Apply the exact DNS records Vercel provides at your registrar. After verification and HTTPS provisioning, update `CLIENT_ORIGIN` to the final origin(s), comma-separated if using both apex and `www`, then redeploy.
 
 ## Notes
-- `.env` and `node_modules/` should not be committed.
-- This is a learning project, not a production deployment. Add authentication, authorization, rate limiting and stricter production configuration before using real student data.
+This is an academic/demo baseline, not a security-audited production service. It includes basic Helmet/CORS/rate-limits, validation and role checks. For real student data, add privacy review, backups, monitoring, account recovery, stronger operational controls and consider secure HttpOnly cookie authentication instead of localStorage JWTs. Vercel serverless functions are not persistent servers; the DB connection is cached.
