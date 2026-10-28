@@ -1,4 +1,523 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Student Management · Student Management</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="/styles.css"></head><body>
-<section id="authView" class="auth"><aside class="hero"><div class="brand"><b>E</b> Student Management</div><div class="hero-copy"><small>CAMPUS OPERATIONS · SIMPLIFIED</small><h1>Every student.<br><em>One clear view.</em></h1><p>A modern student directory and academic administration workspace built for clarity, speed and better decisions.</p><div class="checks">✓ Secure sign in　 ✓ Student insights　 ✓ Search & export</div></div><small class="foot">STUDENT MANAGEMENT PLATFORM · V2.0</small></aside><main class="auth-main"><div class="auth-box"><div class="brand mobile-brand"><b>E</b> Student Management</div><div class="tabs"><button class="tab active" data-mode="login">Sign in</button><button class="tab" data-mode="register">Create account</button></div><small class="purple">WELCOME TO Student Management</small><h2 id="authTitle">Sign in to your workspace</h2><p id="authSubtitle" class="muted">Enter your details to access the student directory.</p><form id="authForm"><div id="nameGroup" class="field hidden"><label>Full name</label><input id="authName" minlength="2" placeholder="Your name"></div><div class="field"><label>Email address</label><input id="authEmail" type="email" required placeholder="you@college.edu" autocomplete="username"></div><div class="field"><label>Password</label><input id="authPassword" type="password" required minlength="8" placeholder="At least 8 characters" autocomplete="current-password"></div><p id="authError" class="error hidden"></p><button id="authSubmit" class="btn primary full">Sign in <span>→</span></button></form><p class="hint">New accounts have student access. Administrator accounts are created by the project owner.</p></div></main></section>
-<section id="appView" class="shell hidden"><aside class="sidebar"><div class="brand"><b>E</b> Student Management</div><small class="nav-label">WORKSPACE</small><button class="nav active">▦　 Overview</button><button id="directoryNav" class="nav">♙　 Student directory</button><div class="side-bottom"><div class="online">🟢　System operational<small>API connection active</small></div><small>Student Management PLATFORM <span>2.0.0</span></small></div></aside><main class="main"><header class="topbar"><span class="crumb">Workspace　/　<strong>Overview</strong></span><div class="user-actions"><span id="roleBadge" class="badge">STUDENT</span><span class="avatar" id="avatar">U</span><span><b id="userName">User</b><small id="userRole">Student</small></span><button id="logoutBtn" class="btn light">Sign out ↗</button></div></header><div class="content"><div class="heading"><div><small class="purple">DASHBOARD / OVERVIEW</small><h1>Good to see you, <em id="greetingName">there</em>.</h1><p class="muted">Here’s what’s happening across your student records.</p></div><span id="todayLabel" class="date"></span></div><div id="toast" class="toast hidden"></div><div class="metrics"><article><small>ALL RECORDS</small><strong id="metricTotal">—</strong><p>Students in directory</p></article><article><small>ACTIVE STUDENTS</small><strong id="metricActive">—</strong><p>Currently active</p></article><article><small>DEPARTMENTS</small><strong id="metricDepartments">—</strong><p>Academic departments</p></article><article><small>SEMESTERS</small><strong>8</strong><p>Supported semesters</p></article></div><section class="card"><div class="card-head"><div><small class="purple">RECORDS</small><h2>Student directory</h2><p class="muted">Search, filter and manage student information.</p></div><div class="actions"><button id="exportBtn" class="btn light admin-only">↓ Export CSV</button><button id="addBtn" class="btn primary admin-only">＋ Add student</button></div></div><div class="filters"><input id="searchInput" type="search" placeholder="Search name, USN or email…"><select id="departmentFilter"><option value="">All departments</option><option>CSE</option><option>ISE</option><option>ECE</option><option>EEE</option><option>ME</option><option>CIV</option><option>AIML</option><option>DS</option><option>OTHER</option></select><select id="semesterFilter"><option value="">All semesters</option><option value="1">Semester 1</option><option value="2">Semester 2</option><option value="3">Semester 3</option><option value="4">Semester 4</option><option value="5">Semester 5</option><option value="6">Semester 6</option><option value="7">Semester 7</option><option value="8">Semester 8</option></select><select id="statusFilter"><option value="">All statuses</option><option>Active</option><option>On Leave</option><option>Graduated</option></select><button id="resetFilters" class="btn quiet">Reset</button></div><div class="table-wrap"><table><thead><tr><th>STUDENT</th><th>USN</th><th>DEPARTMENT</th><th>SEMESTER</th><th>STATUS</th><th>EMAIL</th><th class="admin-only">ACTIONS</th></tr></thead><tbody id="studentsBody"><tr><td colspan="7" class="empty">Loading records…</td></tr></tbody></table></div><div class="table-foot"><span id="tableSummary">Loading…</span><div><button id="prevPage" class="btn quiet" disabled>← Previous</button> <span id="pageLabel">Page 1</span> <button id="nextPage" class="btn quiet" disabled>Next →</button></div></div></section><footer>© <span id="year"></span> Student Management Student Management · Built for academic administration.</footer></div></main></section>
-<dialog id="studentDialog"><form id="studentForm" class="modal-form"><div class="modal-head"><div><small class="purple">STUDENT RECORD</small><h2 id="modalTitle">Add student</h2></div><button id="closeModal" type="button" class="close">×</button></div><input id="studentId" type="hidden"><div class="field"><label>Full name *</label><input id="studentName" required minlength="2" maxlength="100"></div><div class="field"><label>USN *</label><input id="studentUsn" required></div><div class="field"><label>Email *</label><input id="studentEmail" type="email" required></div><div class="two"><div class="field"><label>Department *</label><select id="studentDepartment" required><option value="">Choose</option><option>CSE</option><option>ISE</option><option>ECE</option><option>EEE</option><option>ME</option><option>CIV</option><option>AIML</option><option>DS</option><option>OTHER</option></select></div><div class="field"><label>Semester *</label><select id="studentSemester" required><option value="">Choose</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option></select></div></div><div class="two"><div class="field"><label>Status</label><select id="studentStatus"><option>Active</option><option>On Leave</option><option>Graduated</option></select></div><div class="field"><label>Phone</label><input id="studentPhone" type="tel"></div></div><div class="field"><label>Notes</label><textarea id="studentNotes" maxlength="500" rows="2"></textarea></div><p id="formError" class="error hidden"></p><div class="modal-actions"><button id="cancelModal" type="button" class="btn light">Cancel</button><button id="saveStudent" class="btn primary">Save student →</button></div></form></dialog><script src="/app.js"></script></body></html>
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Management · Academic Workspace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script>
+    // Immediate theme initialization to prevent flash of wrong theme
+    (function() {
+      const saved = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const theme = saved ? saved : (prefersDark ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- Floating Toast Notifications -->
+  <div id="toast" class="toast hidden" role="alert" aria-live="polite"></div>
+
+  <!-- AUTHENTICATION VIEW -->
+  <section id="authView" class="auth">
+    <aside class="hero">
+      <div class="hero-top">
+        <div class="brand">
+          <div class="brand-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <span class="brand-text">Student Management</span>
+        </div>
+        <div class="hero-badge">ACADEMIC PLATFORM 2.0</div>
+      </div>
+
+      <div class="hero-copy">
+        <span class="eyebrow">CAMPUS OPERATIONS · SIMPLIFIED</span>
+        <h1>Every student.<br><span class="gradient-text">One clear view.</span></h1>
+        <p>A modern student directory and academic administration workspace built for clarity, speed, and effortless management.</p>
+        
+        <div class="hero-features">
+          <div class="hero-feature">
+            <span class="feat-icon">✓</span>
+            <div>
+              <strong>Secure Role-Based Access</strong>
+              <span>Protected JWT sessions & role segregation</span>
+            </div>
+          </div>
+          <div class="hero-feature">
+            <span class="feat-icon">✓</span>
+            <div>
+              <strong>Instant Analytics & Insights</strong>
+              <span>Live metrics across branches and semesters</span>
+            </div>
+          </div>
+          <div class="hero-feature">
+            <span class="feat-icon">✓</span>
+            <div>
+              <strong>Search, Filter & One-Click CSV</strong>
+              <span>Fast multi-criteria query and roster exports</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-foot">
+        <span>© <span class="auth-year">2026</span> Student Management Workspace</span>
+        <span class="foot-tag">REST API · MONGODB · RBAC</span>
+      </div>
+    </aside>
+
+    <main class="auth-main">
+      <div class="auth-topbar">
+        <button id="themeToggleAuth" class="theme-toggle" type="button" aria-label="Toggle dark and light mode" title="Switch Theme">
+          <span class="sun-icon">☀️ Light</span>
+          <span class="moon-icon">🌙 Dark</span>
+        </button>
+      </div>
+
+      <div class="auth-box">
+        <div class="brand mobile-brand">
+          <div class="brand-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <span class="brand-text">Student Management</span>
+        </div>
+
+        <div class="tabs">
+          <button class="tab active" data-mode="login" type="button">Sign in</button>
+          <button class="tab" data-mode="register" type="button">Create account</button>
+        </div>
+
+        <div class="auth-heading">
+          <span class="sub-label">WELCOME TO Student Management</span>
+          <h2 id="authTitle">Sign in to your workspace</h2>
+          <p id="authSubtitle" class="muted">Enter your credentials to access the student directory.</p>
+        </div>
+
+        <form id="authForm" novalidate>
+          <div id="nameGroup" class="field hidden">
+            <label for="authName">Full name</label>
+            <div class="input-wrap">
+              <input id="authName" minlength="2" placeholder="e.g. Rahul Sharma">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="authEmail">Email address</label>
+            <div class="input-wrap">
+              <input id="authEmail" type="email" required placeholder="you@college.edu" autocomplete="username">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="authPassword">Password</label>
+            <div class="input-wrap">
+              <input id="authPassword" type="password" required minlength="8" placeholder="At least 8 characters" autocomplete="current-password">
+            </div>
+          </div>
+
+          <p id="authError" class="error hidden" role="alert"></p>
+
+          <button id="authSubmit" class="btn primary full" type="submit">
+            <span>Sign in</span>
+            <span class="btn-arrow">→</span>
+          </button>
+        </form>
+
+        <div class="auth-hint">
+          <div class="hint-icon">ℹ️</div>
+          <p>Public registration assigns <strong>Student</strong> access. Full <strong>Administrator</strong> credentials come from the initial project setup.</p>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <!-- APPLICATION WORKSPACE SHELL -->
+  <section id="appView" class="shell hidden">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="brand">
+          <div class="brand-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <span class="brand-text">Student Management</span>
+        </div>
+
+        <div class="nav-section">
+          <small class="nav-label">WORKSPACE</small>
+          <button class="nav active" type="button">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>Overview</span>
+          </button>
+          <button id="directoryNav" class="nav" type="button">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>Student Directory</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="side-bottom">
+        <div class="system-status">
+          <span class="status-indicator live"></span>
+          <div class="status-details">
+            <strong>System Operational</strong>
+            <small>API & MongoDB Active</small>
+          </div>
+        </div>
+        <div class="platform-version">
+          <span>Student Management Workspace</span>
+          <span class="vtag">v2.0.0</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main">
+      <!-- Top Navigation Bar -->
+      <header class="topbar">
+        <div class="crumb">
+          <span>Workspace</span>
+          <span class="crumb-sep">/</span>
+          <strong>Overview & Directory</strong>
+        </div>
+
+        <div class="user-actions">
+          <!-- Dark/White Mode Toggle -->
+          <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark and light mode" title="Switch Theme">
+            <span class="sun-icon">☀️ Light</span>
+            <span class="moon-icon">🌙 Dark</span>
+          </button>
+
+          <!-- User Role Badge -->
+          <span id="roleBadge" class="badge">STUDENT</span>
+
+          <!-- User Info & Avatar -->
+          <div class="user-profile">
+            <span class="avatar" id="avatar">U</span>
+            <div class="user-meta">
+              <b id="userName">User</b>
+              <small id="userRole">Student</small>
+            </div>
+          </div>
+
+          <!-- Sign Out Button -->
+          <button id="logoutBtn" class="btn light icon-btn" type="button" title="Sign out of workspace">
+            <span>Sign out</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard Body Content -->
+      <div class="content">
+        <!-- Welcome Heading -->
+        <div class="heading">
+          <div>
+            <span class="sub-label">DASHBOARD / OVERVIEW</span>
+            <h1>Good to see you, <span class="highlight" id="greetingName">there</span>.</h1>
+            <p class="muted">Live overview and management across academic records and student profiles.</p>
+          </div>
+          <div class="heading-aside">
+            <span id="todayLabel" class="date-badge"></span>
+          </div>
+        </div>
+
+        <!-- Metric Summary Cards -->
+        <div class="metrics">
+          <article class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">ALL RECORDS</span>
+              <div class="metric-icon total">👥</div>
+            </div>
+            <strong id="metricTotal" class="metric-value">—</strong>
+            <p class="metric-sub">Registered students</p>
+          </article>
+
+          <article class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">ACTIVE STUDENTS</span>
+              <div class="metric-icon active">🟢</div>
+            </div>
+            <strong id="metricActive" class="metric-value">—</strong>
+            <p class="metric-sub">Currently enrolled</p>
+          </article>
+
+          <article class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">DEPARTMENTS</span>
+              <div class="metric-icon dept">🏛️</div>
+            </div>
+            <strong id="metricDepartments" class="metric-value">—</strong>
+            <p class="metric-sub">Academic branches</p>
+          </article>
+
+          <article class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">CURRICULUM</span>
+              <div class="metric-icon sem">🎓</div>
+            </div>
+            <strong class="metric-value">8</strong>
+            <p class="metric-sub">Semesters supported</p>
+          </article>
+        </div>
+
+        <!-- Main Directory Section -->
+        <section class="card directory-card">
+          <div class="card-head">
+            <div>
+              <span class="sub-label">STUDENT RECORDS</span>
+              <h2>Student Directory</h2>
+              <p class="muted">Search, filter, edit, and organize enrolled student details.</p>
+            </div>
+            <div class="actions">
+              <button id="exportBtn" class="btn light admin-only" type="button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Export CSV</span>
+              </button>
+              <button id="addBtn" class="btn primary admin-only" type="button">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>Add Student</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Multi-Criteria Filters -->
+          <div class="filters">
+            <div class="search-box">
+              <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input id="searchInput" type="search" placeholder="Search name, USN, or email…">
+            </div>
+
+            <div class="filter-selects">
+              <div class="select-wrap">
+                <select id="departmentFilter">
+                  <option value="">All Departments</option>
+                  <option>CSE</option>
+                  <option>ISE</option>
+                  <option>ECE</option>
+                  <option>EEE</option>
+                  <option>ME</option>
+                  <option>CIV</option>
+                  <option>AIML</option>
+                  <option>DS</option>
+                  <option>OTHER</option>
+                </select>
+              </div>
+
+              <div class="select-wrap">
+                <select id="semesterFilter">
+                  <option value="">All Semesters</option>
+                  <option value="1">Semester 1</option>
+                  <option value="2">Semester 2</option>
+                  <option value="3">Semester 3</option>
+                  <option value="4">Semester 4</option>
+                  <option value="5">Semester 5</option>
+                  <option value="6">Semester 6</option>
+                  <option value="7">Semester 7</option>
+                  <option value="8">Semester 8</option>
+                </select>
+              </div>
+
+              <div class="select-wrap">
+                <select id="statusFilter">
+                  <option value="">All Statuses</option>
+                  <option>Active</option>
+                  <option>On Leave</option>
+                  <option>Graduated</option>
+                </select>
+              </div>
+
+              <button id="resetFilters" class="btn quiet reset-btn" type="button" title="Clear all filters">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                  <path d="M3 3v5h5"/>
+                </svg>
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Student Data Table -->
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>STUDENT</th>
+                  <th>USN</th>
+                  <th>DEPARTMENT</th>
+                  <th>SEMESTER</th>
+                  <th>STATUS</th>
+                  <th>EMAIL</th>
+                  <th class="admin-only">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="studentsBody">
+                <tr>
+                  <td colspan="7" class="empty">Loading records…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Table Pagination Footer -->
+          <div class="table-foot">
+            <span id="tableSummary" class="table-summary">Loading…</span>
+            <div class="pagination-controls">
+              <button id="prevPage" class="btn quiet page-btn" disabled type="button">
+                <span>← Previous</span>
+              </button>
+              <span id="pageLabel" class="page-indicator">Page 1</span>
+              <button id="nextPage" class="btn quiet page-btn" disabled type="button">
+                <span>Next →</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+          <p>© <span id="year">2026</span> Student Management Workspace · Designed for academic administration with Node.js & MongoDB.</p>
+        </footer>
+      </div>
+    </main>
+  </section>
+
+  <!-- ADD / EDIT STUDENT MODAL DIALOG -->
+  <dialog id="studentDialog">
+    <form id="studentForm" class="modal-form" method="dialog">
+      <div class="modal-head">
+        <div>
+          <span class="sub-label">ACADEMIC RECORD</span>
+          <h2 id="modalTitle">Add Student</h2>
+        </div>
+        <button id="closeModal" type="button" class="close-btn" aria-label="Close dialog">×</button>
+      </div>
+
+      <input id="studentId" type="hidden">
+
+      <div class="form-body">
+        <div class="field">
+          <label for="studentName">Full Name <span class="req">*</span></label>
+          <input id="studentName" required minlength="2" maxlength="100" placeholder="e.g. Ananya Iyer">
+        </div>
+
+        <div class="field">
+          <label for="studentUsn">University Seat Number (USN) <span class="req">*</span></label>
+          <input id="studentUsn" required placeholder="e.g. 1RV22CS015">
+        </div>
+
+        <div class="field">
+          <label for="studentEmail">Email Address <span class="req">*</span></label>
+          <input id="studentEmail" type="email" required placeholder="e.g. ananya.cs22@rvce.edu.in">
+        </div>
+
+        <div class="two">
+          <div class="field">
+            <label for="studentDepartment">Department <span class="req">*</span></label>
+            <select id="studentDepartment" required>
+              <option value="">Select Department</option>
+              <option>CSE</option>
+              <option>ISE</option>
+              <option>ECE</option>
+              <option>EEE</option>
+              <option>ME</option>
+              <option>CIV</option>
+              <option>AIML</option>
+              <option>DS</option>
+              <option>OTHER</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="studentSemester">Semester <span class="req">*</span></label>
+            <select id="studentSemester" required>
+              <option value="">Select Semester</option>
+              <option value="1">Semester 1</option>
+              <option value="2">Semester 2</option>
+              <option value="3">Semester 3</option>
+              <option value="4">Semester 4</option>
+              <option value="5">Semester 5</option>
+              <option value="6">Semester 6</option>
+              <option value="7">Semester 7</option>
+              <option value="8">Semester 8</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="two">
+          <div class="field">
+            <label for="studentStatus">Enrollment Status</label>
+            <select id="studentStatus">
+              <option>Active</option>
+              <option>On Leave</option>
+              <option>Graduated</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="studentPhone">Phone Number</label>
+            <input id="studentPhone" type="tel" placeholder="+91 98765 43210">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="studentNotes">Academic & Extracurricular Notes</label>
+          <textarea id="studentNotes" maxlength="500" rows="3" placeholder="Projects, achievements, club affiliations, or advisor remarks…"></textarea>
+        </div>
+
+        <p id="formError" class="error hidden" role="alert"></p>
+      </div>
+
+      <div class="modal-actions">
+        <button id="cancelModal" type="button" class="btn light">Cancel</button>
+        <button id="saveStudent" class="btn primary" type="submit">
+          <span>Save student</span>
+          <span class="btn-arrow">→</span>
+        </button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Client JavaScript Application -->
+  <script src="/app.js"></script>
+</body>
+</html>
